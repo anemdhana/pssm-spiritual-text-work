@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 from pathlib import Path
 
 import requests
@@ -173,7 +174,20 @@ def _start_vlc_ffmpeg_process() -> subprocess.Popen | None:
     )
     VLC_STREAM_STATE["process"] = process
     VLC_STREAM_STATE["active"] = True
+    _start_stderr_drain_thread(process)
     return process
+
+
+def _start_stderr_drain_thread(process: subprocess.Popen) -> None:
+    def _drain() -> None:
+        if process.stderr is None:
+            return
+        for raw_line in iter(process.stderr.readline, b""):
+            line = raw_line.decode(errors="replace").rstrip()
+            if line:
+                print(f"[vlc-ffmpeg] {line}", file=sys.stderr)
+
+    threading.Thread(target=_drain, daemon=True).start()
 
 
 def _stop_vlc_ffmpeg_process() -> None:

@@ -1,0 +1,7 @@
+# Blogger publish settings (used by scripts/publish_to_blogger.py)
+# Find your numeric Blog ID in Blogger dashboard > Settings.
+blog_id=
+
+# Paths below are relative to the repo root; only override if you moved them.
+# client_secret_path=config/blogger-client-secret.json
+# token_path=config/blogger-token.json

@@ -14,3 +14,8 @@ frontend/vite.config.js.timestamp-*.mjs
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Blogger publish secrets (see config/blogger-config.properties.example)
+config/blogger-config.properties
+config/blogger-client-secret.json
+config/blogger-token.json
